@@ -2,117 +2,102 @@
 #include <cstring>
 using namespace std;
 
-class Car
-{
-	char* model;
-	char* country;
-	double price;
-	int year;
+class Car {
+    char* model;
+    char* country;
+    double price;
+    int year;
 
 public:
-	Car()
-	{
-		model = nullptr;
-		country = nullptr;
-		price = 0;
-		year = 2024;
-	}
+    Car() {
+        model = nullptr;
+        country = nullptr;
+        price = 0;
+        year = 2024;
+    }
 
-	Car(const char * Model, const char* Country, double Price, int Year)
-	{
-		model = new char[strlen(Model) + 1];
-		country = new char[strlen(Country) + 1];
-		price = Price;
-		year = Year;
+    Car(const char* Model, const char* Country, double Price, int Year) {
+        model = new char[strlen(Model) + 1];
+        strcpy_s(model, strlen(Model) + 1, Model);
 
-	}
+        country = new char[strlen(Country) + 1];
+        strcpy_s(country, strlen(Country) + 1, Country);
 
-	void SetModel(const char * NewModel)
-	{
-		if (model != nullptr)
-		{
-			delete[] model;
+        price = Price;
+        year = Year;
+    }
 
-		}
-		model = new char[strlen(NewModel) + 1];
-		strcpy_s(model, strlen(NewModel) + 1, NewModel);
+    void SetModel(const char* NewModel) {
+        if (model != nullptr) {
+            delete[] model;
+        }
+        model = new char[strlen(NewModel) + 1];
+        strcpy_s(model, strlen(NewModel) + 1, NewModel);
+    }
 
-	}
+    void SetCountry(const char* NewCountry) {
+        if (country != nullptr) {
+            delete[] country;
+        }
+        country = new char[strlen(NewCountry) + 1];
+        strcpy_s(country, strlen(NewCountry) + 1, NewCountry);
+    }
 
-	void SetCountry(const char* NewCountry)
-	{
-		if (country != nullptr)
-		{
-			delete[] country;
+    void SetPrice(double NewPrice) {
+        price = NewPrice;
+    }
 
-		}
-		country = new char[strlen(NewCountry) + 1];
-		strcpy_s(country, strlen(NewCountry) + 1, NewCountry);
+    void SetYear(int NewYear) {
+        year = NewYear;
+    }
 
-	}
+    void Input() {
+        char buff[100];
 
-	void SetPrice(double NewPrice)
-	{
-		price = NewPrice;
-	}
+        cout << "Enter model -> ";
+        cin >> buff;
+        SetModel(buff);
 
-	void SetPrice(int NewYear)
-	{
-		price = NewYear;
-	}
+        cout << "Enter country -> ";
+        cin >> buff;
+        SetCountry(buff);
 
+        cout << "Enter price -> ";
+        cin >> price;
 
-	void Input(const char* Model, const char* Country, double Price, int Year)
-	{
-		char buff[20];
-		cout << "Enter model -> ";
-		cin >> buff;
+        cout << "Enter year -> ";
+        cin >> year;
+    }
 
-		if (model != nullptr)
-		{
-			delete[] model;
+    void Output() const {
+        cout << "Model: " << (model ? model : "N/A") << endl;
+        cout << "Country: " << (country ? country : "N/A") << endl;
+        cout << "Price: " << price << endl;
+        cout << "Year: " << year << endl;
+    }
 
-		}
-		model = new char[strlen(buff) + 1];
-		strcpy_s(model, strlen(buff) + 1, buff);
-
-
-
-		cout << "Enter country -> ";
-
-		if (country != nullptr)
-		{
-			delete[] country;
-
-		}
-		country = new char[strlen(buff) + 1];
-		strcpy_s(country, strlen(buff) + 1, buff);
-
-		cout << "Enter price -> ";
-		cin >> price;
-
-
-		cout << "Enter year -> ";
-		cin >> year;
-
-
-
-
-	}
-
-	void Output()
-	{
-		cout << "Model: " << model << endl;
-		cout << "Country: " << country << endl;
-		cout << "Price: " << price << endl;
-		cout << "Year: " << year << endl;
-	}
-
-
+    ~Car() {
+        delete[] model;
+        delete[] country;
+        cout << "Destruct\n";
+    }
 };
 
+int main() {
+    Car car1;
+    car1.Input();
+    car1.Output();
 
-int main()
-{
-	
+    Car car2("Tesla", "USA", 50000, 2023);
+    car2.Output();
+
+    Car car3;
+    car3.SetModel("BMW");
+    car3.SetCountry("Germany");
+    car3.SetPrice(45000);
+    car3.SetYear(2022);
+    car3.Output();
+
+    system("pause");
+    return 0;
 }
